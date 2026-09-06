@@ -1,0 +1,43 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.khavel/futpicks",
+  "title": "FutPicks",
+  "description": "Football data for agents: probable lineups with per-player start probability and expected fantasy points, match analysis, model picks and a public track record for LaLiga, Premier League, Serie A, Bundesliga, Ligue 1 and Primeira Liga.",
+  "websiteUrl": "https://futpicks.com",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/Khavel/futpicks-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "futpicks-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "FUTPICKS_API_URL",
+          "description": "API base URL. Defaults to https://futpicks.com.",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "FUTPICKS_API_KEY",
+          "description": "Data-scope API key (flab_live_...). Optional: the public tools — probable lineups, matches, picks, track record — work without it.",
+          "isRequired": false,
+          "isSecret": true
+        },
+        {
+          "name": "FUTPICKS_OPS_TOKEN",
+          "description": "Ops-scope API key (flab_ops_...), admin only. Optional.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "name": "futpicks-mcp",
+  "mcpName": "io.github.khavel/futpicks",
+  "version": "1.0.0",
+  "description": "MCP server for FutPicks — probable lineups with per-player start probability and expected fantasy points, match analysis, model picks and a public track record for the six big European leagues",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "futpicks-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "football",
+    "soccer",
+    "fantasy",
+    "lineups",
+    "laliga",
+    "premier-league",
+    "predictions",
+    "sports-data"
+  ],
+  "homepage": "https://futpicks.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khavel/futpicks-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Khavel/futpicks-mcp/issues"
+  },
+  "license": "MIT",
+  "author": "Khavel",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
