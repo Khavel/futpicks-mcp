@@ -20,6 +20,7 @@
  */
 
 import { randomUUID } from "node:crypto";
+import { createRequire } from "node:module";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
@@ -115,9 +116,13 @@ const WRITE = { readOnlyHint: false, destructiveHint: false, idempotentHint: fal
 
 // ── Server ────────────────────────────────────────────────────────────────
 
+// Read the real version instead of repeating it here: MCP clients show it, and a hand-written
+// copy drifts from package.json the first time anyone releases.
+const { version: VERSION } = createRequire(import.meta.url)("../package.json") as { version: string };
+
 const server = new McpServer({
   name: "futpicks-mcp",
-  version: "1.0.0",
+  version: VERSION,
 });
 
 // ════════════════════════════════════════════════════════════════════════════

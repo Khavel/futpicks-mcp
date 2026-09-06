@@ -4,7 +4,7 @@
   "title": "FutPicks",
   "description": "Probable football lineups with start probability and expected fantasy points, graded in public.",
   "websiteUrl": "https://futpicks.com",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": {
     "url": "https://github.com/Khavel/futpicks-mcp",
     "source": "github"
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "futpicks-mcp",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "transport": {
         "type": "stdio"
       },

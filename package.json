@@ -1,7 +1,7 @@
 {
   "name": "futpicks-mcp",
   "mcpName": "io.github.Khavel/futpicks",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP server for FutPicks — probable lineups with per-player start probability and expected fantasy points, match analysis, model picks and a public track record for the six big European leagues",
   "type": "module",
   "main": "dist/index.js",
