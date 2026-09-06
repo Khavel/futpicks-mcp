@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.khavel/futpicks",
   "title": "FutPicks",
-  "description": "Football data for agents: probable lineups with per-player start probability and expected fantasy points, match analysis, model picks and a public track record for LaLiga, Premier League, Serie A, Bundesliga, Ligue 1 and Primeira Liga.",
+  "description": "Probable football lineups with start probability and expected fantasy points, graded in public.",
   "websiteUrl": "https://futpicks.com",
   "version": "1.0.0",
   "repository": {
