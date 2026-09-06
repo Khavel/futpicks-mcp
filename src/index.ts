@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * FootballLab MCP Server
+ * FutPicks MCP Server
  *
- * Agent-friendly access to FootballLab's (futpicks.com) picks, matches,
+ * Agent-friendly access to FutPicks (futpicks.com): probable lineups, picks, matches,
  * track record, backtests, on-demand evaluation, and pipeline operations.
  *
  * All tools call HTTP endpoints — no direct database, SSH, or local secret
  * access beyond API tokens read from the environment.
  *
- * Auth tiers (FootballLab uses one JWT scheme with ProTier / Admin policies):
+ * Auth tiers (FutPicks uses one JWT scheme with ProTier / Admin policies):
  *   - "none" : public endpoints, no token
  *   - "data" : ProTier endpoints, Bearer FUTPICKS_API_KEY
  *   - "ops"  : Admin endpoints,   Bearer FUTPICKS_OPS_TOKEN
@@ -129,7 +129,7 @@ server.registerTool(
   {
     title: "Get Today's Picks",
     description:
-      "Get FootballLab's published picks for a date (defaults to today UTC). Public board shows Good-rated picks by default. " +
+      "Get FutPicks' published picks for a date (defaults to today UTC). Public board shows Good-rated picks by default. " +
       "Markets: H2H, OU2.5, BTTS, AsianHandicap, DoubleChance, etc. Public — no auth.",
     inputSchema: {
       date: z.string().optional().describe("Date YYYY-MM-DD (default: today UTC)"),
@@ -241,7 +241,7 @@ server.registerTool(
   "flab_teams",
   {
     title: "Get Teams",
-    description: "List teams known to FootballLab. Public — no auth.",
+    description: "List teams known to FutPicks. Public — no auth.",
     inputSchema: {},
     annotations: READ,
   },
@@ -281,7 +281,7 @@ server.registerTool(
   "flab_health",
   {
     title: "Get System Health",
-    description: "Check FootballLab API health and basic system status. Public — no auth.",
+    description: "Check the FutPicks API health and basic system status. Public — no auth.",
     inputSchema: {},
     annotations: READ,
   },
@@ -481,7 +481,7 @@ server.registerTool(
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("FootballLab MCP server running via stdio");
+  console.error("FutPicks MCP server running via stdio");
 }
 
 main().catch((error) => {
