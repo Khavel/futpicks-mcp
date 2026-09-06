@@ -55,9 +55,20 @@ jobs:
           test "$tag" = "$pkg" -a "$tag" = "$srv" -a "$tag" = "$nested" \
             || { echo "::error::the tag and the manifest versions disagree"; exit 1; }
 
+      # No token needed once a trusted publisher is configured for this workflow:
+      #   npm trust github futpicks-mcp --repo Khavel/futpicks-mcp --file publish.yml --allow-publish
+      # The workflow's OIDC identity is the credential, and it satisfies npm's 2FA requirement, so
+      # nobody has to type a one-time code again. NPM_TOKEN is only a fallback.
+      # The version check keeps the job green when the release was already pushed by hand.
       - name: Publish to npm
-        if: env.NPM_TOKEN != ''
-        run: npm publish --access public
+        run: |
+          set -euo pipefail
+          version="$(node -p "require('./package.json').version")"
+          if npm view "futpicks-mcp@$version" version >/dev/null 2>&1; then
+            echo "futpicks-mcp@$version ya está en npm, no hay nada que publicar"
+          else
+            npm publish --provenance --access public
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
