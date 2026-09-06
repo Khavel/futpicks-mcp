@@ -1,10 +1,10 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.khavel/futpicks",
+  "name": "io.github.Khavel/futpicks",
   "title": "FutPicks",
   "description": "Probable football lineups with start probability and expected fantasy points, graded in public.",
   "websiteUrl": "https://futpicks.com",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "url": "https://github.com/Khavel/futpicks-mcp",
     "source": "github"
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "futpicks-mcp",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "transport": {
         "type": "stdio"
       },
