@@ -1,0 +1,72 @@
+# Publishes a release of this server: the npm package and the entry in the official MCP registry.
+#
+# Why here and not from a laptop: the registry authenticates with GitHub's OIDC token, which this
+# workflow already has, so nobody has to install the publisher CLI or run a browser login. Tag a
+# version and both registries are updated.
+#
+#   git tag v1.0.0 && git push origin v1.0.0
+#
+# npm needs one secret because the account has 2FA: create a *granular access token* with
+# "bypass 2FA" at npmjs.com → Access Tokens, and add it as the NPM_TOKEN repository secret. If the
+# secret is absent the npm step is skipped and the workflow just refreshes the registry entry
+# (useful when the package was published by hand with `npm publish --otp=…`).
+name: Publish
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # OIDC token for the MCP registry
+      contents: read
+
+    # Job level so the npm step's `if` can read it: a step cannot see its own `env` block there.
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # The tag is the source of truth for the version, so package.json and server.json cannot
+      # drift from what is being released.
+      - name: Check the tag matches the manifests
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME#v}"
+          pkg="$(node -p "require('./package.json').version")"
+          srv="$(node -p "require('./server.json').version")"
+          nested="$(node -p "require('./server.json').packages[0].version")"
+          echo "tag=$tag package.json=$pkg server.json=$srv package entry=$nested"
+          test "$tag" = "$pkg" -a "$tag" = "$srv" -a "$tag" = "$nested" \
+            || { echo "::error::the tag and the manifest versions disagree"; exit 1; }
+
+      - name: Publish to npm
+        if: env.NPM_TOKEN != ''
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Install the MCP registry publisher
+        run: |
+          set -euo pipefail
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+
+      - name: Publish to the MCP registry
+        run: |
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish
